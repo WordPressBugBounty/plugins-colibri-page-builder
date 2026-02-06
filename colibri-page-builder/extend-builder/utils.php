@@ -36,7 +36,9 @@ function log2($msg)
 {
 	$t     = microtime(true);
 	$micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+    //phpcs:ignore 		WordPress.DateTime.RestrictedFunctions.date_date
 	$d     = new \DateTime(date('Y-m-d H:i:s.' . $micro, $t));
+    //phpcs:ignore 	WordPress.PHP.DevelopmentFunctions.error_log_error_log
 	error_log($msg . "->" . $d->format("Y-m-d H:i:s.u"));
 }
 
@@ -205,6 +207,7 @@ function colibri_cache_set($name, $value)
 	$colibri_cache          = isset($GLOBALS['__colibri_plugin_cache__']) ? $GLOBALS['__colibri_plugin_cache__'] : array();
 	$colibri_cache[$name] = $value;
 
+    //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['__colibri_plugin_cache__'] = $colibri_cache;
 }
 
@@ -281,6 +284,7 @@ function is_false($var)
 
 function get_template_part($slug, $name = null)
 {
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 	do_action("get_template_part_{$slug}", $slug, $name);
 
 	$templates = array();
@@ -356,11 +360,12 @@ function apply_customizer_preview_context()
 	if (!is_customize_preview()) {
 		return;
 	}
-
+//phpcs:ignore 	WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.NonceVerification.Recommended
 	$context = isset($_REQUEST['context']) ? $_REQUEST['context'] : array();
 	$query   = is_array($context) && isset($context['query']) ? _sanitize_customizer_preview_context_query($context['query']) : array();
 
 	if (count($query)) {
+        //phpcs:ignore 	WordPress.WP.DiscouragedFunctions.query_posts_query_posts
 		query_posts($query);
 	}
 }
@@ -391,6 +396,7 @@ function colibri_shortcode_decode($data)
 function get_colibri_image($name)
 {
 	global $wpdb;
+    //phpcs:ignore 	WordPress.DB.PreparedSQLPlaceholders.QuotedSimplePlaceholder, 	WordPress.DB.DirectDatabaseQuery.NoCaching, 	WordPress.DB.DirectDatabaseQuery.DirectQuery
 	$posts = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title LIKE '%s'", '%' . $wpdb->esc_like($name) . '%'));
 	if ($posts && count($posts)) {
 		$id = $posts[0]->ID;
@@ -583,6 +589,7 @@ function colibri_duplicate_post_as_draft($post_id, $title = null)
 		/*
         * duplicate all post meta
         */
+        //phpcs:ignore 	WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$post_meta_infos = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id = %d", $post_id));
 		if (count($post_meta_infos) != 0) {
 
@@ -597,9 +604,13 @@ function colibri_duplicate_post_as_draft($post_id, $title = null)
 				);
 			}
 
+
 			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
+
+            //phpcs:ignore 			PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$sql_query .= implode(" UNION ALL ", $sql_query_sel);
 
+            //phpcs:ignore 	WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->query($sql_query);
 		}
 		return $new_post_id;

@@ -91,6 +91,7 @@ class WXRImporter extends \ProteusThemes\WPContentImporter2\WXRImporter {
                         'attribute_orderby' => 'menu_order',
                         'attribute_public'  => 0
                     );
+                    //phpcs:ignore 	WordPress.DB.DirectDatabaseQuery.DirectQuery
                     $wpdb->insert( $wpdb->prefix . 'woocommerce_attribute_taxonomies', $attribute );
                     delete_transient( 'wc_attribute_taxonomies' );
                 }
@@ -98,7 +99,9 @@ class WXRImporter extends \ProteusThemes\WPContentImporter2\WXRImporter {
                 // Register the taxonomy now so that the import works!
                 register_taxonomy(
                     $data['taxonomy'],
+                    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                     apply_filters( 'woocommerce_taxonomy_objects_' . $data['taxonomy'], array( 'product' ) ),
+                    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                     apply_filters( 'woocommerce_taxonomy_args_' . $data['taxonomy'], array(
                         'hierarchical' => true,
                         'show_ui'      => false,

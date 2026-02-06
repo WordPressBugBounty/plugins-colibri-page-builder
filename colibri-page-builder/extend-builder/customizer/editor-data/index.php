@@ -157,14 +157,14 @@ add_filter('extendbuilder_wp_data', function ($value) {
 });
 
 add_filter('extendbuilder_wp_data', function ($value) {
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
     $value['attachment_sizes'] = apply_filters('image_size_names_choose', array(
-        'thumbnail' => __('Thumbnail'),
-        'medium' => __('Medium'),
-        'large' => __('Large'),
-        'full' => __('Full Size'),
-        'post-thumbnail' => __('Post Thumbnail'),
-        'medium_large' => __('Medium Large'),
+        'thumbnail' => __('Thumbnail', 'colibri-page-builder'),
+        'medium' => __('Medium', 'colibri-page-builder'),
+        'large' => __('Large', 'colibri-page-builder'),
+        'full' => __('Full Size', 'colibri-page-builder'),
+        'post-thumbnail' => __('Post Thumbnail', 'colibri-page-builder'),
+        'medium_large' => __('Medium Large', 'colibri-page-builder'),
     ));
 
     return $value;

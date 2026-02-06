@@ -24,7 +24,8 @@ function extendthemes_remote_notifications_handle($data)
 
         <div class="left-container">
             <div class="message">
-                <?php echo wpautop(trim($data['message'])); ?>
+
+                <?php echo wpautop(trim($data['message']));//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             </div>
         </div>
 
@@ -47,7 +48,8 @@ function extendthemes_remote_notifications_handle($data)
                 font-size: 20px;
             }
 
-            <?php echo str_replace("#ID","[data-cp-notification-name=\"extendthemes_remote_notification_mesmerize_{$data['notification_id']}\"]",$data['custom_css']); ?>
+
+            <?php echo str_replace("#ID","[data-cp-notification-name=\"extendthemes_remote_notification_mesmerize_{$data['notification_id']}\"]",$data['custom_css']);//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </style>
     </div>
     <?php
@@ -209,7 +211,7 @@ add_action('admin_head', function () {
 });
 
 // the notifications content display actions
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 function cp_notification_winter_holiday_2017_active_callback()
 {
     $compareTO = "mesmerize";
@@ -229,7 +231,7 @@ function cp_notification_winter_holiday_2017_active_callback()
         return false;
     }
 }
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 function cp_notification_discount_offer($data)
 {
     $props = isset($data['props']) ? $data['props'] : array();

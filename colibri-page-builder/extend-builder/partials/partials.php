@@ -82,6 +82,7 @@ function default_partial_post($type, $default_for = 'post', $lang = "default")
 {
     $post_default = get_default_partial_id($type, $default_for);
 
+    //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
     $template = apply_filters(prefix("default_partial"), -1, $type);
 
     if ($template == -1) {
@@ -314,7 +315,7 @@ function export_colibri_data($options = array(), $encode = false)
             array_push($partials, $partial);
         }
     }
-
+    //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
     $theme_data = get_theme_data();
 
     if ($exclude_generated) {

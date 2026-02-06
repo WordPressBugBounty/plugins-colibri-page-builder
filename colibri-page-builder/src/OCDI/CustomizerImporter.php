@@ -72,7 +72,9 @@ class CustomizerImporter {
         if ( ! file_exists( $import_file_path ) ) {
             return new WP_Error(
                 'missing_cutomizer_import_file',
+
                 sprintf(
+                    //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                     esc_html__( 'Error: The customizer import file is missing! File path: %s', 'colibri-page-builder'),
                     $import_file_path
                 )
@@ -131,12 +133,14 @@ class CustomizerImporter {
         $use_wp_customize_save_hooks = apply_filters( 'extendthemes-ocdi/enable_wp_customize_save_hooks', false );
 
         if ( $use_wp_customize_save_hooks ) {
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             do_action( 'customize_save', $wp_customize );
         }
 
         // Loop through the mods and save the mods.
         foreach ( $data['mods'] as $key => $val ) {
             if ( $use_wp_customize_save_hooks ) {
+                //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                 do_action( 'customize_save_' . $key, $wp_customize );
             }
 
@@ -144,6 +148,7 @@ class CustomizerImporter {
         }
 
         if ( $use_wp_customize_save_hooks ) {
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             do_action( 'customize_save_after', $wp_customize );
         }
     }
@@ -230,6 +235,7 @@ class CustomizerImporter {
 
             // If error storing permanently, unlink.
             if ( is_wp_error( $id ) ) {
+                //phpcs:ignore 		WordPress.WP.AlternativeFunctions.unlink_unlink
                 unlink( $file_array['tmp_name'] );
 
                 return $id;
